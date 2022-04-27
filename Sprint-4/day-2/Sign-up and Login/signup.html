@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        form{
+            width: 30%;
+            margin: auto;
+            margin-top: 30px;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+            padding: 20px 25px 50px 25px;
+            border-radius: 20px;
+        }
+        h2,#btn+p{
+            text-align: center;
+        }
+
+        #btn{
+            margin: auto;
+            margin-top: 50px;
+            width: 100%;
+            height: 40px;
+            border: 0px;
+            color: rgb(133, 123, 123);
+        }
+        #btn:hover{
+            background-color: rgb(16, 86, 191);
+            color: white;
+        }
+        input{
+            width: 99%;
+            height: 40px;
+            border: 1px solid rgb(205, 195, 195);
+            border-radius: 10px;
+        }
+      ::placeholder{
+          color: rgb(192, 203, 203);
+          padding-left: 10px;
+      }
+      a{
+          color: blue;
+          text-decoration: none;
+      }
+    </style>
+</head>
+<body>
+    <center><img src="https://sso.masaischool.com/brand_dark.svg" alt=""></center>
+    <form action="" id="data">
+        <h2>Sign Up</h2>
+        <p>Full Name</p>
+        <input type="text" name="" id="name" placeholder="Enter your fullname">
+        <p>Email</p>
+        <input type="text" name="" id="email" placeholder="Enter your email">
+        <p>Password</p>
+        <input type="text" name="" id="pass" placeholder="Enter Password">
+        <input type="submit" name="" id="btn" value="SIGN UP" >
+        <p>Already have an account? <a href="signin.html"> Sign In</a> here</p>
+    </form>
+    
+</body>
+</html>
+<script>
+    document.querySelector("form").addEventListener("submit",store)
+    var arr=[];
+    function store(){
+        event.preventDefault();
+        var obj={
+            name: data.name.value,
+            email:data.email.value,
+            password:data.pass.value
+        }
+        arr.push(obj)
+        localStorage.setItem("info",JSON.stringify(arr))
+        alert("Sign Up Successfull. Account Created!")
+        window.location.href="signin.html"
+    }
+</script>

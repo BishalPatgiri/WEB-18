@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backend</title>
+</head>
+<body>
+    <h2>Masai Investors</h2>
+    <form action="" id="investor">
+        <input type="text" placeholder="Name" id="name">
+        <input type="text" placeholder="ImageURL" id="img">
+        <input type="text" placeholder="CompanyLogo" id="logo">
+        <input type="text" placeholder="role" id="role">
+        <input type="submit" name="">
+    </form>
+</body>
+</html>
+<script>
+    document.querySelector("form").addEventListener("submit",add_data)
+    function add_data(){
+        event.preventDefault();
+        var array=JSON.parse(localStorage.getItem("data"))|| [];
+        var obj={name: investor.name.value,imgURL:investor.img.value,companyLogo:investor.logo.value,role:investor.role.value
+            }
+            array.push(obj)
+        localStorage.setItem("data",JSON.stringify(array))
+    }
+</script>
