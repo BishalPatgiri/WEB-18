@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Gateway</title>
+   <style>
+       form{
+           width: 40%;
+           margin: auto;
+       }
+       input{
+           width: 80%;
+           height: 40px;
+           border: 0px;
+           border-radius: 15px;
+           box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+           padding-left: 20px;
+       }
+       div{
+           width: 90%;
+           margin: auto;
+       }
+       h1{
+           text-align: center;
+       }
+      #btn{
+          width: 30%;
+          margin-top: 20px;
+          margin-left: 140px;
+       }
+       #btn:hover{
+           color: white;
+           background-color: rgb(23, 77, 191);
+       }
+   </style>
+</head>
+<body>
+    <h1>Payment Gateway</h1>
+    <form action="" id="my_form">
+        <div>
+        <h3>CARD NUMBER</h3>
+        <input type="number" id="card_num" placeholder="Enter Card Number here">
+        <h3>CVV</h3>
+        <input type="nember" id="cvv" placeholder="Enter Your cvv here">
+        <h3>EXPIRY DATE</h3>
+        <input type="date" id="date_exp" placeholder="Enter Expiry Date here">
+        <h3>NAME</h3>
+        <input type="text" id="name" placeholder="Enter Name in Card">
+        <input type="submit" value="Submit" id="btn">
+        </div>
+    </form>
+</body>
+</html>
+<script>
+
+    var data_stored={name: "BISHAL PATGIRI", card_no:123456789,cvv:121,date_exp:"2022-01-15",}
+    document.querySelector("form").addEventListener("submit",validate)
+    function validate(){
+        event.preventDefault();
+        var name=my_form.name.value
+        var cvv=my_form.cvv.value
+        var card_number=my_form.card_num.value
+        var date=my_form.date_exp.value
+         if(cvv==data_stored.cvv && card_number==data_stored.card_no && date==data_stored.date_exp)
+         {
+                window.location.href="OTP.html"
+         }
+         else{
+             alert("Wrong Credantials !!!")
+         }
+
+    }
+</script>

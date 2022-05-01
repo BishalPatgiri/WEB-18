@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-com</title>
+    <style>
+        #main{
+
+            width: 98%;
+            margin: auto;
+            height: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgb(14, 14, 41);
+            border-radius: 10px;
+        }
+        #main>div{
+            padding-left: 20px;
+            color: white;
+        }
+        a{
+            margin-right: 40px;
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+        <div>Reebok</div>
+        <div>
+        <a href="" class="check1">Men</a>
+        <a href="" class="check2">Women</a>
+        <a href="signin.html">Login</a>
+        <a href="signup.html">Signup</a>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+   document.querySelector(".check1").addEventListener("click",mencheck)
+   document.querySelector(".check2").addEventListener("click",womencheck)
+
+   function mencheck(){
+       event.preventDefault();
+       if(localStorage.getItem("sign")=="absent")
+       {
+           alert("You are not Loged in! Please login first")
+           window.location.href="signin.html"
+       }
+       else if(localStorage.getItem("sign")==null)
+       {
+           alert("You don't have an account with us. Please create an account first.")
+           window.location.href="signup.html"
+       }
+       else if(localStorage.getItem("sign")=="present")
+       {
+        window.location.href="mens.html"
+       }
+       console.log(localStorage.getItem("sign"))
+   }
+
+   function womencheck(){
+       event.preventDefault();
+       if(localStorage.getItem("sign")=="absent")
+       {
+        alert("You are not Loged in! Please login first")
+        window.location.href="signin.html"
+       }
+       else if(localStorage.getItem("sign")==null)
+       {
+           alert("You don't have an account with us. Please create an account first.")
+           window.location.href="signup.html"
+       }
+       else if(localStorage.getItem("sign")=="present"){
+        window.location.href="womens.html"
+       }
+   }
+</script>

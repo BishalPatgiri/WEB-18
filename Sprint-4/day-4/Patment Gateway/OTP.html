@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP validation</title>
+    <style>
+        p{
+            color: rgb(30, 87, 201);
+        }
+        input,button{
+            height: 30px;
+            margin-bottom: 10px;
+        }
+
+    </style>
+</head>
+<body>
+        <p>An OTP is sent to your mobile number.</p>
+        <h3>Enter the OTP</h3>
+        <input type="number" id="OTP">
+        <br>
+        <button>Submit OTP</button>
+</body>
+</html>
+<script>
+    document.querySelector("button").addEventListener("click",OTP_validate)
+    function OTP_validate(){
+        if(document.querySelector("#OTP").value==1234)
+        {
+            alert("Payment Successful")
+        }
+        else{
+            alert("Wrong OTP !!!")
+        }
+    }
+</script>
