@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            text-align: center;
+        }
+        #content{
+            width: 75%;
+            margin: auto;
+            margin-top: 50px;
+            /* display: grid;
+            grid-template-columns: repeat(8,1fr);
+            grid-row: auto;
+            gap: 15px; */
+            display: flex;
+            justify-content: space-around;
+            line-height: 7px;
+            background-color: rgb(39, 46, 71);
+            border-radius: 15px;
+
+        }
+        #content>div{
+            width: 11%;
+            background-color: rgb(17, 23, 82);
+            color: white;
+            border-radius: 10px;
+            padding: 10px 0px 10px 0px;
+            border: 1px solid rgb(149, 142, 142);
+            margin-top: 11px;
+            margin-bottom: 11px;
+        }
+        input{
+            height: 30px;
+        }
+        button{
+            background-color: rgb(30, 77, 196);
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            border: 0;
+        }
+        h1+p{
+            font-size: 20px;
+            word-spacing: 2px;
+            font-weight: bold;
+            color: rgb(83, 75, 75);
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Weather App</h1>
+    <p>Daily forecast of a city for next 7 days</p>
+    <input type="text" placeholder="Type the name of the city" id="inpu">
+    <button onclick="show()">Clik Here</button>
+    <div id="content"></div>
+</body>
+</html>
+<script>
+    const api="56029dfaf08a540a55a855c40b09457b"
+    let array=["Sun","Mon","Tues","Wed","Thurs","Fri","Sat"]
+
+async function show(){
+    let city=document.querySelector("#inpu").value
+    let url=`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api}`
+    try{
+    let data=await fetch(url)
+    let data1=await data.json()
+    tel(data1.coord.lat,data1.coord.lon)
+    }
+    catch(err)
+    {
+        document.getElementById("content").innerHTML=""
+        let image=document.createElement("img")
+        image.style.height="500px"
+        image.src="https://c.tenor.com/qwqeFvknZuQAAAAd/it-doesnt-actually-exist-derek-muller.gif"
+        document.getElementById("content").append(image)
+    }
+
+}
+
+async function tel(x,y){
+    let u=`https://api.openweathermap.org/data/2.5/onecall?lat=${x}&lon=${y}&exclude=hourly,minutely,alerts,current&appid=56029dfaf08a540a55a855c40b09457b`
+    let papa=await fetch(u)
+    let papa1=await papa.json();
+    display(papa1.daily)
+
+}
+let i=2;
+function display(data){
+    document.getElementById("content").innerHTML=""
+    data.forEach(function(ele){
+
+        i++;
+        if(i>6)
+        {
+            i=0
+        }
+        let div=document.createElement("div")
+        
+        let day=document.createElement("h2")
+        day.innerText=array[i]
+
+        let image=document.createElement("img")
+        image.src=`http://openweathermap.org/img/wn/${ele.weather[0].icon}@2x.png`
+
+        let t1=document.createElement("h3")
+        t1.innerText=Math.floor(Number(ele.temp.min)-273)+"°"
+
+        let t2=document.createElement("h2")
+        t2.innerText=Math.floor(Number(ele.temp.max)-273)+"°"
+
+        div.append(day,image,t2,t1)
+        document.getElementById("content").append(div)
+
+
+    })
+}
+</script>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OMDB Movie App</title>
+    <style>
+        *{
+            text-align: center;
+        }
+        #main{
+            width: 30%;
+            margin: auto;
+            margin-top: 35px;
+            /* text-align: center; */
+            border-radius: 15px;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+            padding: 25px;
+        }
+        input{
+            width:98%;
+            height:30px;
+            border-radius: 5px solid;
+        }
+        button{
+            padding: 10px;
+            background-color: rgb(39, 191, 100);
+            border-radius: 10px;
+            border: 0ch;
+            margin-top: 20px;
+            color: white;
+            cursor: pointer;
+        }
+        #container{
+            width: 95%;
+            margin: auto;
+            margin-top: 50px;
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            grid-template-rows: auto;
+            gap: 30px;
+            row-gap: 40px;
+        }
+        #container>div{        
+            text-align: center;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+            border-radius: 15px;
+            padding-bottom: 8px;
+        }
+        #container>div>img{
+            width: 100%;
+            height: 430px;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+        #container>div>h3{
+            padding: 0px 20px 0px 20px;
+        }
+        .show{
+            width: 40%;
+            margin: auto;
+            height: 300px;
+            border-radius: 15px;
+        }
+        #see{
+            width: 60%;
+            margin: auto;
+            display: flex;
+            justify-content: space-evenly;
+        }
+        #see>h5{
+            border: 1px solid rgb(233, 19, 186);
+            border-radius: 8px;
+            padding: 5px;
+            margin-top: 11px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Movie Searching App</h1>
+    <div id="main">
+        <h3>Type the Movie Name to Search</h3>
+        <br>
+        <input type="text" id="movie">
+        <button>Search</button>
+    </div>
+    <div id="container">
+
+    </div>
+    <div id="error">
+
+    </div>
+</body>
+</html>
+<script>
+    
+    document.querySelector("button").addEventListener("click",search)
+
+    function search(){
+        let name=document.querySelector("#movie").value
+        const url=`https://www.omdbapi.com/?s=${name}&apikey=3f96558`
+        async function detail(){ 
+            try{
+            let data=await fetch(url)
+            let data1=await data.json() 
+            display(data1.Search)
+            }
+            catch(err){
+                let image=document.createElement("img")
+                image.setAttribute("class","show")
+                image.src="https://c.tenor.com/Lts7KRu9Dj8AAAAd/uhh-i-got-nothing-dan-byrd.gif"
+                document.querySelector("#error").append(image)
+            }
+        }
+        detail()
+    }
+
+    function display(data){
+        document.getElementById("container").innerHTML=""
+        document.querySelector("#error").innerHTML=""
+        data.forEach(function(ele){
+            let IMDB=ele.imdbID
+            let inside=`https://www.omdbapi.com/?i=${IMDB}&apikey=3f96558`
+            
+            async function mov(){ 
+            try{
+            let data=await fetch(inside)
+            let data1=await data.json() 
+            showAll(data1);
+                }
+            catch(err){
+                let image=document.createElement("img")
+                image.setAttribute("class","show")
+                image.src="https://c.tenor.com/Lts7KRu9Dj8AAAAd/uhh-i-got-nothing-dan-byrd.gif"
+                document.querySelector("#error").append(image)
+                    }
+            }
+            mov();
+        })
+            
+    }
+
+    function showAll(obj){
+        let div=document.createElement("div")
+
+        let poster=document.createElement("img")
+        poster.src=obj.Poster
+
+        let name=document.createElement("h3")
+        name.innerText=obj.Title
+
+        let yor=document.createElement("p")
+        yor.innerText="Released Date "+"-"+" "+obj.Released
+
+        let imdb=document.createElement("p")
+        imdb.innerText="IMDB "+"-"+" "+obj.imdbRating
+            
+
+        div.append(poster,name,yor,imdb)
+        document.getElementById("container").append(div)
+    }
+</script>

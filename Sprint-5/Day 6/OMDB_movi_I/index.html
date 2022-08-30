@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OMDB Movie App</title>
+    <style>
+        *{
+            text-align: center;
+        }
+        #main{
+            width: 30%;
+            margin: auto;
+            margin-top: 35px;
+            /* text-align: center; */
+            border-radius: 15px;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+            padding: 25px;
+        }
+        input{
+            width:98%;
+            height:30px;
+            border-radius: 5px solid;
+        }
+        button{
+            padding: 10px;
+            background-color: rgb(39, 191, 100);
+            border-radius: 10px;
+            border: 0ch;
+            margin-top: 20px;
+            color: white;
+            cursor: pointer;
+        }
+        #container{
+            width: 95%;
+            margin: auto;
+            margin-top: 50px;
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            grid-template-rows: auto;
+            gap: 25px;
+            row-gap: 40px;
+        }
+        #container>div{        
+            text-align: center;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+            border-radius: 15px;
+        }
+        img{
+            width: 100%;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Movie Searching App</h1>
+    <div id="main">
+        <h3>Type the Movie Name to Search</h3>
+        <br>
+        <input type="text" id="movie">
+        <button>Search</button>
+    </div>
+    <div id="container">
+
+    </div>
+</body>
+</html>
+<script>
+    
+    document.querySelector("button").addEventListener("click",search)
+
+    function search(){
+        let name=document.querySelector("#movie").value
+        const url=`https://www.omdbapi.com/?s=${name}&apikey=3f96558`
+        console.log(url)
+        async function detail(){ 
+            try{
+            let data=await fetch(url)
+            let data1=await data.json() 
+            console.log(data1.Search)
+            display(data1.Search)
+            }
+            catch(err){
+                console.log(err)
+            }
+        }
+        detail()
+
+    }
+
+    function display(data){
+        document.getElementById("container").innerHTML=""
+        data.forEach(function(ele){
+            console.log("Hey")
+            let div=document.createElement("div")
+
+            let poster=document.createElement("img")
+            poster.src=ele.Poster
+
+            let name=document.createElement("h3")
+            name.innerText=ele.Title
+
+            let yor=document.createElement("p")
+            yor.innerText="Year of Release "+"-"+" "+ele.Year
+
+            div.append(poster,name,yor)
+            document.getElementById("container").append(div)
+        })
+            
+    }
+</script>

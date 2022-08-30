@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #main{
+            width: 25%;
+            margin: auto;
+            margin-top: 100px;
+            text-align: center;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            padding-bottom: 30px;
+            border-radius: 15px;
+        }
+        #main>div{
+            width: 90%;
+            margin: auto;
+            text-align: left;
+            margin-bottom: 30px;
+        }
+        img{
+            width: 100%;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px
+        }
+        button{
+            border: 0;
+            border-radius: 10px;
+            padding: 10px;
+            background-color: rgb(58, 180, 123);
+            color: white;
+            cursor: pointer;
+        }
+        #container{
+            width: 60%;
+            margin: auto;
+            margin-top: 50px;
+        }
+        #container>div>img{
+            height: 450px;
+            border-radius: 20px;
+        }
+        #container>div>p{
+            text-align: end;
+            font-size: 20px;
+        }
+        h2{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="big">
+    <div id="main">
+        <img src="https://www.aislelabs.com/wp-content/uploads/2020/04/symbol-McDonalds-1024x517.jpg" alt="">
+        <h2>Choose From below</h2>
+        <div>
+            <input type="checkbox" value="Burger">
+            <label for="">Burger</label>
+            <br>
+            <input type="checkbox" value="Pizza">
+            <label for="">Pizza</label>
+            <br>
+            <input type="checkbox" value="Cold Coffee">
+            <label for="">Cold Coffee</label>
+        </div>
+        <button>Order Food</button>
+    </div>
+    </div>
+    <div id="container">
+
+    </div>
+</body>
+</html>
+<script>
+    function item(a,b,c){
+        this.name=c
+        this.image=a;
+        this.order=b;
+    }
+    let Pizza=new item("https://st.depositphotos.com/1003814/5052/i/950/depositphotos_50523105-stock-photo-pizza-with-tomatoes.jpg","MD001","Pizza")
+    let Burger=new item("https://media.istockphoto.com/photos/hamburger-with-cheese-and-french-fries-picture-id1188412964?b=1&k=20&m=1188412964&s=612x612&w=0&h=wkRPO603xYWyMVyHl6-wObSui8GfXbiXTzWFCIYVGu8=","MD002","Burger")
+    let Cold=new item("https://www.brit.co/media-library/two-ingredient-vietnamese-iced-coffee.jpg?id=22866982&width=600&coordinates=134%2C0%2C200%2C0&height=600&quality=80","MD003","Cold Coffee")
+
+    document.querySelector("button").addEventListener("click",order_food)
+
+    function order_food(){
+
+        alert("Please Wait!! Your order is getting prepared")
+        let order=document.querySelector('input[type="checkbox"]:checked').value
+
+        let food=new Promise(function(resolve,reject){
+
+        let s=status();
+        let time=Math.random()*10000
+        if(s==true)
+        {
+            setTimeout(function(){
+                resolve(order)
+            },time)
+         
+        }
+        else{
+            reject("Sorry! We can't provide this item")
+        }
+        })
+
+    food.then(function(item){
+        if(item=="Burger")
+        display(Burger)
+        else if(item=="Pizza")
+        display(Pizza)
+        else if(item=="Cold Coffee")
+        display(Cold)
+    })
+}
+
+    function status(){
+        return true;
+    }
+
+
+    function display(x){
+        document.querySelector("#big").innerHTML=""
+        let div=document.createElement("div")
+        let image=document.createElement("img")
+        image.src=x.image
+        let name=document.createElement("h2")
+        name.innerText="Your"+" "+x.name+" "+"is ready......"
+        let orderid=document.createElement("p")
+        orderid.innerText="Order Id -"+" "+x.order
+
+        div.append(orderid,image,name)
+        document.querySelector("#container").append(div)
+    }
+</script>

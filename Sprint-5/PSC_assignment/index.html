@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Wars</title>
+    <style>
+        #main{
+            width: 35%;
+            margin: auto;
+            margin-top: 200px;
+            background-color: rgb(11, 11, 11);
+            text-align: center;
+        }
+        body{
+            background-color: rgb(11, 11, 11);
+        }
+        input{
+            width: 97%;
+            height: 35px;
+            padding: 10px 20px 10px 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            font-size: 16px;
+            background-color: rgb(53, 47, 47);
+            color: white;
+            border: 0px;
+            outline: 0px;
+        }
+        img{
+            width: 60%;
+        }
+        #list{
+            color: white;
+            width: 97%;
+            border-top: 0px;
+            text-align: start;
+            padding:0px 20px 0px 20px;
+            background-color:rgb(53, 47, 47);
+            position: relative;
+            top: -15px;
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Star_Wars_Logo.svg" alt="">
+        <input type="text" placeholder="Search Charecters" id="inpu" oninput="debounce(show,1000)">
+        <div id="list"></div>
+    </div>
+</body>
+</html>
+<script>
+    let id;
+   
+    function debounce(func,delay)
+    {
+        if(id){
+            clearTimeout(id)
+        }
+        id=setTimeout(function(){
+            func();
+        },delay)
+    }
+
+    async function show(){ 
+        
+        let name=document.getElementById("inpu").value
+        if(name=="")
+        {
+            document.getElementById("list").innerHTML=""
+            document.getElementById("list").style.height="0px"
+            document.getElementById("main").style.marginTop="200px"
+         }
+         else{
+        const url=`https://swapi.dev/api/people/?search=${name}`
+
+        try{
+        let data1=await fetch(url)
+        let data2=await data1.json();
+
+        console.log(data2.results)
+        display(data2.results)
+        }
+        catch(err){
+            console.log(err)
+        }
+    }
+
+    }
+
+    function display(data){
+        if(data.length==0)
+        {
+            document.getElementById("list").innerHTML=""
+            document.getElementById("list").style.height="0px"
+            document.getElementById("main").style.marginTop="200px"
+        }
+        else{
+        
+        document.getElementById("list").innerHTML=""
+        document.getElementById("main").style.marginTop="70px"
+        document.getElementById("list").style.overflow="scroll"
+        document.getElementById("list").style.height="300px"
+
+        data.forEach(function(ele){
+        let name=document.createElement("p")
+        name.innerText=ele.name
+        document.getElementById("list").append(name)
+        })
+    }
+    }
+
+</script>

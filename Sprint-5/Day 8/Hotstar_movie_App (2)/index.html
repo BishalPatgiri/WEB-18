@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HotStar</title>
+    <style>
+        #main{
+            display: flex;
+            justify-content: space-evenly;
+            margin-top: 40px;
+        }
+        #in,#movie_list{
+            width: 30%;
+        }
+        #movie_list{
+            /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
+            border-radius: 10px;
+            height: 200px;
+            width: 100%;
+        }
+        img{
+            width: 100%;
+        }
+        #data{
+            text-align: center;
+            width: 20%;
+
+        }
+        #movie_list>p{
+            padding-left: 20px;
+        }
+        input{
+            width: 99%;
+            height: 30px;
+            border: 0px;
+            border-bottom: 2px solid;
+            border-radius: 10px;
+            padding-left: 20px;
+        }
+        #data p,#data h2{
+            padding: 0px 10px 0px 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+        <div id="in">
+            <h2>Search Movie here</h2>
+            <input type="text" name="" id="inpu" placeholder="Movie Name">
+            <div id="movie_list"></div>
+        </div>
+        <div id="data"></div>
+    </div>
+</body>
+</html>
+<script>
+    let debounce;
+document.querySelector("input").addEventListener("input",ram)
+
+function ram(){
+    dam(list,800)
+}
+
+    function list(){
+        
+        let name=document.querySelector("#inpu").value
+        const url=`https://www.omdbapi.com/?s=${name}&apikey=3f96558`
+        
+        async function collect(){
+            try{
+                let data=await fetch(url)
+                let data1=await data.json()
+                display(data1.Search)
+            }
+            catch(err)
+            {
+                console.log(err)
+            }
+        }
+        collect()
+
+    }
+
+    function  display(data){
+        document.querySelector("#movie_list").innerHTML=""
+        if(data==undefined)
+        {
+            document.querySelector("#movie_list").style.overflow="auto";
+            return false      
+        }
+
+        data.forEach(function(ele){
+            let list=document.createElement("p")
+            list.innerText=ele.Title
+            list.style.cursor="pointer"
+            list.addEventListener("click",function(){
+                display_movie(ele.Title);
+            })
+            document.querySelector("#movie_list").append(list)
+            document.querySelector("#movie_list").style.overflow="scroll";
+            
+        })
+    
+        
+    }
+    
+    function dam(func,delay)
+    {
+        if(debounce){
+            clearTimeout(debounce)
+        }
+        debounce=setTimeout(function(){
+            func()
+        },delay)
+    }
+
+    async function display_movie(nam){
+        let url=`https://www.omdbapi.com/?t=${nam}&apikey=3f96558`
+        let out1=await fetch(url)
+        let out2=await out1.json()
+        console.log(out2)
+
+        document.getElementById("data").innerHTML=""
+        // document.querySelector("#movie_list").style.height="0px"
+        let div=document.createElement("div")
+
+        let image=document.createElement("img")
+        image.src=out2.Poster
+        console.log(out2.Poster)
+
+        let title=document.createElement("h2")
+        title.innerText=out2.Title
+
+        let YOR=document.createElement("p")
+        YOR.innerText="Year of Released :"+" "+out2.Released
+
+        let imdb=document.createElement("p")
+        imdb.innerText="IMDB rating :"+" "+out2.imdbRating
+
+        let cast=document.createElement("p")
+        cast.innerText="Cast :"+" "+out2.Actors
+
+        div.append(image,title,YOR,imdb,cast)
+        document.getElementById("data").append(div)
+    }
+</script>

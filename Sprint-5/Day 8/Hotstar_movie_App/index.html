@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HotStar</title>
+    <style>
+        #in,#movie_list{
+            width: 30%;
+            margin: auto;
+        }
+        #movie_list{
+            /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
+            border-radius: 10px;
+            height: 200px;
+        }
+        #movie_list>p{
+            padding-left: 20px;
+        }
+        input{
+            width: 99%;
+            height: 30px;
+            border: 0px;
+            border-bottom: 2px solid;
+            border-radius: 10px;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="in">
+        <h2>Search Movie here</h2>
+        <input type="text" name="" id="inpu" placeholder="Movie Name">
+    </div>
+    <div id="movie_list">
+    </div>
+</body>
+</html>
+<script>
+    let debounce;
+document.querySelector("input").addEventListener("input",ram)
+
+function ram(){
+    dam(list,800)
+}
+
+    function list(){
+        
+        let name=document.querySelector("#inpu").value
+        const url=`https://www.omdbapi.com/?s=${name}&apikey=3f96558`
+        
+        async function collect(){
+            try{
+                let data=await fetch(url)
+                let data1=await data.json()
+                display(data1.Search)
+            }
+            catch(err)
+            {
+                console.log(err)
+            }
+        }
+        collect()
+
+    }
+
+    function  display(data){
+        document.querySelector("#movie_list").innerHTML=""
+        if(data==undefined)
+        {
+            document.querySelector("#movie_list").style.overflow="auto";
+            return false      
+        }
+        data.forEach(function(ele){
+            let list=document.createElement("p")
+            list.innerText=ele.Title
+
+            document.querySelector("#movie_list").append(list)
+            document.querySelector("#movie_list").style.overflow="scroll";
+            
+        })
+    
+        
+    }
+    
+    function dam(func,delay)
+    {
+        if(debounce){
+            clearTimeout(debounce)
+        }
+        debounce=setTimeout(function(){
+            func()
+        },delay)
+    }
+</script>
